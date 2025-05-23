@@ -1,14 +1,16 @@
-import { DataTypes } from "sequelize";
+import {
+  CreationOptional,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from "sequelize";
 import { sequelize } from "../config/db.config";
 import { z } from "zod";
 
 export const TodoSchema = z.object({
-  id: z.number(),
   title: z.string(),
   description: z.string(),
-  completed: z.boolean(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
 });
 
 export const CreateTodoSchema = z.object({
@@ -21,7 +23,16 @@ export const UpdateTodoSchema = z.object({
   description: z.string().optional(),
 });
 
-export const Todo = sequelize.define("Todo", {
+interface TodoModel
+  extends Model<InferAttributes<TodoModel>, InferCreationAttributes<TodoModel>>,
+    z.infer<typeof TodoSchema> {
+  id: CreationOptional<number>;
+  completed: CreationOptional<boolean>;
+  createdAt: CreationOptional<Date>;
+  updatedAt: CreationOptional<Date>;
+}
+
+export const Todo = sequelize.define<TodoModel>("Todo", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -39,5 +50,13 @@ export const Todo = sequelize.define("Todo", {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
   },
 });
