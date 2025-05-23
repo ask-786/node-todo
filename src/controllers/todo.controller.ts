@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { CreateTodoSchema, Todo, UpdateTodoSchema } from "../model/todo.model";
-import { tryCatch } from "../util/common.util";
+import { CreateTodoSchema, Todo, UpdateTodoSchema } from "../model/todo.model.js";
+import { tryCatch } from "../util/common.util.js";
 
 type ControllerFn = (req: Request, res: Response) => void;
 

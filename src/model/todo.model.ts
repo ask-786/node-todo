@@ -5,7 +5,7 @@ import {
   InferCreationAttributes,
   Model,
 } from "sequelize";
-import { sequelize } from "../config/db.config";
+import { sequelize } from "../config/db.config.js";
 import { z } from "zod";
 
 export const TodoSchema = z.object({
